@@ -1,0 +1,8 @@
+author: NextInfinity
+commands: 
+  midi: 
+    description: "Use MidiCraft."
+description: "Play MIDIs in Minecraft."
+main: net.nextinfinity.midicraft.MidiCraft
+name: MidiCraft
+version: 1.0

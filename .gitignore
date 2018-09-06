@@ -1,0 +1,9 @@
+.gradle
+.settings
+bin
+build
+gradle
+out
+gradlew
+gradlew.bat
+*.iml
