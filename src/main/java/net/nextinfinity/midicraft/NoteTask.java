@@ -12,21 +12,20 @@ class NoteTask implements Runnable {
 	private int tick = 0;
 	private final MusicPlayer player;
 
-	public NoteTask(MusicPlayer player) {
+	NoteTask(MusicPlayer player) {
 		this.player = player;
 	}
 
 	@Override
 	public void run() {
-		if (player.notes.containsKey(tick)) {
-			for (Float note : player.notes.get(tick)) {
+		if (player.getNotes().containsKey(tick)) {
+			for (Float note : player.getNotes().get(tick)) {
 				for (Player player : Bukkit.getOnlinePlayers()) {
-					if (note > 2) {
-						note = note - 2F;
+					if (note > 2F) {
+						note -= 2F;
 						player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1.0F, note);
-					} else {
-						player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1.0F, note);
 					}
+					player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1.0F, note);
 				}
 			}
 		}

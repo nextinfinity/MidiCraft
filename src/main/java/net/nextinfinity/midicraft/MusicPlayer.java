@@ -12,12 +12,12 @@ import java.util.Map;
 
 class MusicPlayer {
 
-	final Map<Integer, List<Float>> notes = new HashMap<>();
+	private final Map<Integer, List<Float>> notes = new HashMap<>();
 
 	private final MidiCraft plugin;
 	private Integer task;
 
-	public MusicPlayer(String fileName, MidiCraft plugin) throws InvalidMidiDataException, IOException {
+	MusicPlayer(String fileName, MidiCraft plugin) throws InvalidMidiDataException, IOException {
 		this.plugin = plugin;
 		load(fileName);
 	}
@@ -62,7 +62,7 @@ class MusicPlayer {
 	/**
 	 * Plays the loaded MIDI data from start.
 	 */
-	public void play() {
+	void play() {
 		stop();
 		task = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new NoteTask(this), 0, 2);
 	}
@@ -70,11 +70,15 @@ class MusicPlayer {
 	/**
 	 * Stops the MIDI playback.
 	 */
-	public void stop() {
+	void stop() {
 		if (task != null) {
 			Bukkit.getScheduler().cancelTask(task);
 			task = null;
 		}
+	}
+
+	Map<Integer, List<Float>> getNotes() {
+		return notes;
 	}
 
 }
