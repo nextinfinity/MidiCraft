@@ -12,29 +12,27 @@ import java.util.HashMap;
 /**
  * The base JavaPlugin class of the MidiCraft plugin.
  */
-public class MidiCraft extends JavaPlugin{
+public class MidiCraft extends JavaPlugin {
 
 	private final HashMap<Player, MusicPlayer> players = new HashMap<>();
 
 	private final static String PREFIX = ChatColor.DARK_PURPLE + "[" + ChatColor.LIGHT_PURPLE + "MidiCraft" + ChatColor.DARK_PURPLE + "] ";
 
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		if(commandLabel.equalsIgnoreCase("midi")){
-
-			if(!(sender instanceof Player)){
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		if (commandLabel.equalsIgnoreCase("midi")) {
+			if (!(sender instanceof Player)) {
 				sender.sendMessage("Only players can use MidiCraft!");
 				return true;
 			}
 			Player player = (Player) sender;
-			if(args.length < 1){
+			if (args.length < 1) {
 				player.sendMessage(PREFIX + "MidiCraft by NextInfinity");
 				player.sendMessage(PREFIX + "/midi load [file] - Create a new music player with the specified file");
 				return true;
 			}
 
 			MusicPlayer mp = players.get(player);
-			switch(args[0].toLowerCase()) {
-
+			switch (args[0].toLowerCase()) {
 				case ("load"):
 					String fileName = args[1];
 					player.sendMessage(PREFIX + "Attempting to load " + fileName + "...");
@@ -49,7 +47,6 @@ public class MidiCraft extends JavaPlugin{
 						player.sendMessage(PREFIX + ChatColor.RED + "That file doesn't exist!");
 					}
 					break;
-
 				case ("play"):
 					if (mp != null) {
 						mp.play();
@@ -57,7 +54,6 @@ public class MidiCraft extends JavaPlugin{
 						player.sendMessage(PREFIX + "You don't currently have a music player!");
 					}
 					break;
-
 				case ("stop"):
 					if (mp != null) {
 						mp.stop();
@@ -65,7 +61,6 @@ public class MidiCraft extends JavaPlugin{
 						player.sendMessage(PREFIX + "You don't currently have a music player!");
 					}
 					break;
-
 				case ("clear"):
 					if (mp != null) {
 						mp.stop();
@@ -74,9 +69,7 @@ public class MidiCraft extends JavaPlugin{
 						player.sendMessage(PREFIX + "You don't currently have a music player!");
 					}
 					break;
-
 			}
-
 		}
 		return true;
 	}

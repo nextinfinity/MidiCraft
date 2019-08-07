@@ -5,12 +5,12 @@ package net.nextinfinity.midicraft;
  */
 class NoteUtil {
 
-	public static float getPitch(int note) {
-		if(note > 23){
-			float unalteredPitch = (float)Math.pow(2.0, ((double)note - 36.0) / 12.0);
-			return unalteredPitch+2F;
+	static float getPitch(int note) {
+		if (note > 23) {
+			float unalteredPitch = (float) Math.pow(2.0, ((double) note - 36.0) / 12.0);
+			return unalteredPitch + 2F;
 		}
-		return (float)Math.pow(2.0, ((double)note - 12.0) / 12.0);
+		return (float) Math.pow(2.0, ((double) note - 12.0) / 12.0);
 	}
 
 }

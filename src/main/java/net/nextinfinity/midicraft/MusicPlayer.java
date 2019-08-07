@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 class MusicPlayer {
-	
+
 	final Map<Integer, List<Float>> notes = new HashMap<>();
 
 	private final MidiCraft plugin;
 	private Integer task;
 
-	public MusicPlayer(String fileName, MidiCraft plugin) throws InvalidMidiDataException, IOException{
+	public MusicPlayer(String fileName, MidiCraft plugin) throws InvalidMidiDataException, IOException {
 		this.plugin = plugin;
 		load(fileName);
 	}
@@ -29,40 +29,40 @@ class MusicPlayer {
 	 * @param fileName The name of the file, including its extension, to load MIDI data from.
 	 *                 The file must exist and contain valid MIDI data.
 	 */
-	private void load(String fileName) throws InvalidMidiDataException, IOException{
+	private void load(String fileName) throws InvalidMidiDataException, IOException {
 		Sequence sequence = MidiSystem.getSequence(new File(plugin.getDataFolder(), fileName));
 		int tpb = sequence.getResolution();
-		int ticks = tpb/4;
+		int ticks = tpb / 4;
 		int trackNumber = 0;
-		for (Track track :  sequence.getTracks()) {
-            trackNumber++;
-            System.out.println("Track " + trackNumber + ": size = " + track.size());
-            System.out.println();
-            for (int i=0; i < track.size(); i++) {
-                MidiEvent event = track.get(i);
-                Integer tick = Math.toIntExact(event.getTick());
-                if(tick % ticks == 0){
-                	MidiMessage message = event.getMessage();
-                    if (message instanceof ShortMessage) {
-                        ShortMessage sm = (ShortMessage) message;
-                        if (sm.getCommand() == 0x90) {
-                            int key = sm.getData1() - 30;
-                            if(key <= 48){
-                            	List<Float> list = notes.containsKey(tick) ? notes.get(tick) : new ArrayList<>();
-                            	list.add(NoteUtil.getPitch(key));
-                            	notes.put(tick/ticks, list);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+		for (Track track : sequence.getTracks()) {
+			trackNumber++;
+			System.out.println("Track " + trackNumber + ": size = " + track.size());
+			System.out.println();
+			for (int i = 0; i < track.size(); i++) {
+				MidiEvent event = track.get(i);
+				Integer tick = Math.toIntExact(event.getTick());
+				if (tick % ticks == 0) {
+					MidiMessage message = event.getMessage();
+					if (message instanceof ShortMessage) {
+						ShortMessage sm = (ShortMessage) message;
+						if (sm.getCommand() == 0x90) {
+							int key = sm.getData1() - 30;
+							if (key <= 48) {
+								List<Float> list = notes.containsKey(tick) ? notes.get(tick) : new ArrayList<>();
+								list.add(NoteUtil.getPitch(key));
+								notes.put(tick / ticks, list);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
 	 * Plays the loaded MIDI data from start.
 	 */
-	public void play(){
+	public void play() {
 		stop();
 		task = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new NoteTask(this), 0, 2);
 	}
@@ -70,8 +70,8 @@ class MusicPlayer {
 	/**
 	 * Stops the MIDI playback.
 	 */
-	public void stop(){
-		if(task != null) {
+	public void stop() {
+		if (task != null) {
 			Bukkit.getScheduler().cancelTask(task);
 			task = null;
 		}
